@@ -59,7 +59,7 @@ AI_Code_Reviewer/
 │   └── style.css                        # Custom UI stylesheet
 │
 ├── data/
-│   ├── about JM1 Dataset.txt            # JM1 dataset documentation
+│   ├── about JM1 Dataset.txt             # JM1 dataset documentation
 │   ├── archive.zip                      # Zipped raw data archive
 │   ├── history.json                     # Local storage for review history logs
 │   ├── jm1.arff                         # ARFF dataset file
