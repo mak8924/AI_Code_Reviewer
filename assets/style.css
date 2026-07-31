@@ -1,0 +1,708 @@
+/* 1. استيراد الخطوط الأساسية للتطبيق من Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* 2. استيراد خط Material Symbols لإظهار أسهم وأيقونات Streamlit بشكل صحيح دون أن تتحول إلى نصوص */
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+/* 3. تعريف متغيرات الألوان الرئيسية للتطبيق لسهولة التعديل والتناسق */
+:root {
+  /* 4. لون الخلفية الأساسية للتطبيق (كحلي داكن جداً) */
+  --bg-primary: #0A0F1C;
+  /* 5. لون خلفية البطاقات والحاويات الداخلية */
+  --bg-secondary: #10182C;
+  /* 6. لون الحدود الفاصلة بين العناصر */
+  --border: #232E4C;
+  /* 7. لون النصوص الأساسية (أبيض مائل للرمادي) */
+  --text-primary: #E8EDF5;
+  /* 8. لون النصوص الفرعية الباهتة */
+  --text-muted: #7C8AA8;
+  /* 9. لون الحالة الممتازة أو السليمة (تركوازي) */
+  --vital-teal: #22D3B8;
+  /* 10. لون حالة الخطأ أو الخطر (مرجاني) */
+  --vital-coral: #F2545B;
+}
+
+/* 11. ضبط الخلفية الشاملة وتوجيه الواجهة بالكامل نحو اليمين (RTL) */
+.stApp, div[data-testid="stAppViewContainer"] {
+  /* 12. تعيين لون خلفية التطبيق الداكنة */
+  background: var(--bg-primary);
+  /* 13. تعيين لون النص الافتراضي */
+  color: var(--text-primary);
+  /* 14. استخدام خط Inter كخط أساسي للجسم */
+  font-family: 'Inter', sans-serif;
+  /* 15. ضبط اتجاه الواجهة من اليمين إلى اليسار */
+  direction: rtl;
+  /* 16. محاذاة جميع المحتويات افتراضياً لليمين */
+  text-align: right;
+}
+
+/* 17. إخفاء القائمة الفوقية وحقوق منصة Streamlit الافتراضية */
+#MainMenu, footer { 
+  /* 18. جعل هذه العناصر غير مرئية للمستخدم */
+  visibility: hidden; 
+}
+
+/* 19. تطبيق خط العناوين وتوجيه النصوص فقط دون المساس بالأيقونات */
+h1, h2, h3, h4, h5, h6, p, label, .stMarkdown {
+  /* 20. تعيين خط العناوين البرمجي المخصص */
+  font-family: 'Space Grotesk', sans-serif !important;
+  /* 21. تطبيق لون النص المعتمد */
+  color: var(--text-primary);
+  /* 22. تباعد خفيف جداً بين الحروف */
+  letter-spacing: -0.01em;
+  /* 23. محاذاة النص لليمين */
+  text-align: right !important;
+  /* 24. تثبيت الاتجاه من اليمين لليسار */
+  direction: rtl !important;
+  /* 25. تصحيح ترتيب الكلمات الإنجليزية والرموز داخل النصوص العربية */
+  unicode-bidi: plaintext !important;
+}
+
+/* 26. استثناء شامل لجميع أيقونات النظام والأسهم لمنع تحولها إلى نصوص مثل keyboard_arrow_down */
+[class*="material-symbols"],
+[class*="material-icons"],
+[data-testid="stExpanderToggleIcon"],
+/* 1. تنسيق القائمة الجانبية للتطبيق عندما تكون مفتوحة فقط */
+/* الكتلة الخاصة بالقائمة الجانبية عندما تكون مفتوحة */
+[data-testid="stSidebar"][aria-expanded="true"] {
+  /* 1. تعيين عرض القائمة الجانبية عند الفتح (يمكنك زيادة الرقم كـ 380px أو 400px حسب المساحة المطلوبة) */
+  width: 380px !important;
+  /* 2. تثبيت الحد الأدنى للعرض لضمان عدم انكماشها على الشاشات المختلفة */
+  min-width: 380px !important;
+  /* 3. لون خلفية القائمة الجانبية الداكنة */
+  background: #070B14 !important;
+  /* 4. حد فاصل أيسر يظهر حصراً عند فتح القائمة */
+  border-left: 1px solid var(--border) !important;
+  /* 5. اتجاه عناصر القائمة من اليمين لليسار */
+  direction: rtl !important;
+}
+
+/* 5. إلغاء الحدود وتصفير الحاوي تماماً عند إغلاق القائمة لمنع الخط الرأسي */
+[data-testid="stSidebar"][aria-expanded="false"] {
+  /* 6. إزالة الحد الخارجي تماماً */
+  border: none !important;
+  /* 7. إزالة الحد الأيسر */
+  border-left: none !important;
+  /* 8. إزالة الحد الأيمن */
+  border-right: none !important;
+  /* 9. إزالة الظلال المتبقية */
+  box-shadow: none !important;
+  /* 10. إزالة الإطار الخارجي */
+  outline: none !important;
+  /* 11. تصفير عرض القائمة المغلقة */
+  width: 0px !important;
+  /* 12. تصفير الحد الأدنى للعرض */
+  min-width: 0px !important;
+  /* 13. قص وإخفاء أي محتوى يخرج عن نطاق العرض الصفري */
+  overflow: hidden !important;
+}
+
+/* 14. إخفاء شبكة الملاحة وعناصر القائمة تماماً عند الإغلاق لمنع تسرب الأيقونات */
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarNav"],
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarContent"] {
+  /* 15. إخفاء العناصر من الهيكل لمنع ظهور أي أيقونة طافية */
+  display: none !important;
+  /* 16. إخفاء الرؤية تماماً */
+  visibility: hidden !important;
+}
+
+/* 17. إزالة الحدود من زر التحكم عند إغلاق القائمة */
+div[data-testid="stSidebarCollapsedControl"] {
+  /* 18. إزالة حدود زر السهم لمنع ظهور أي خط رأسي حوله */
+  border: none !important;
+  /* 19. إزالة ظلال الزر */
+  box-shadow: none !important;
+  /* 20. تثبيت اتجاه الزر من اليسار لليمين ليعمل السهم بشكل صحيح */
+  direction: ltr !important;
+}
+
+/* 21. إصلاح موضع وتوسيط زر فتح وإغلاق القائمة */
+[data-testid="stSidebarCollapseButton"],
+[data-testid="stSidebarCollapsedControl"] {
+  /* 22. تثبيت الاتجاه */
+  direction: ltr !important;
+  /* 23. عرض محاذي مرن */
+  display: flex !important;
+  /* 24. محاذاة عمودية في المنتصف */
+  align-items: center !important;
+  /* 25. محاذاة أفقية في المنتصف */
+  justify-content: center !important;
+}
+
+/* 26. تنسيق خلفية زر السهم المستقل */
+[data-testid="stSidebarCollapsedControl"] button {
+  /* 27. جعل خلفية الزر شفافة */
+  background: transparent !important;
+  /* 28. تعيين لون السهم للتركوازي */
+  color: var(--vital-teal) !important;
+  /* 29. إزالة الحدود من الزر */
+  border: none !important;
+}
+
+/* 30. تطبيق قواعد الأيقونات فقط عندما تكون القائمة مفتوحة */
+[data-testid="stSidebar"][aria-expanded="true"] [data-testid="stSidebarNav"] span,
+[data-testid="stSidebar"][aria-expanded="true"] [data-testid="stSidebarNav"] svg,
+[data-testid="stSidebar"][aria-expanded="true"] [data-testid="stSidebarNav"] i {
+  /* 31. إظهار الأيقونات بشكل طبيعي داخل القائمة المفتوحة فقط */
+  display: inline-block !important;
+  /* 32. استخدام الخط الافتراضي للأيقونات */
+  font-family: inherit;
+}
+
+/* 35. استثناء الأكواد البرمجية من الاتجاه العربي لتبقى من اليسار لليمين */
+code, pre, div[data-testid="stCodeBlock"], .stCode, .mono {
+  /* 36. استخدام خط JetBrains Mono المخصص للأكواد */
+  font-family: 'JetBrains Mono', monospace !important;
+  /* 37. اتجاه الكتابة من اليسار لليمين */
+  direction: ltr !important;
+  /* 38. محاذاة كود البرمجة نحو اليسار */
+  text-align: left !important;
+  /* 39. استعادة الترتيب الطبيعي للحروف */
+  unicode-bidi: normal !important;
+}
+
+/* 40. تنسيق هيكل حقل/صندوق السجل المنسدل (st.expander) */
+[data-testid="stExpander"] {
+  /* 41. تثبيت اتجاه الحاوية من اليمين لليسار */
+  direction: rtl !important;
+  /* 42. محاذاة النص لليمين */
+  text-align: right !important;
+  /* 43. تعيين خلفية الصندوق */
+  background-color: var(--bg-secondary) !important;
+  /* 44. تحديد حدود الصندوق */
+  border: 1px solid var(--border) !important;
+  /* 45. انحناء الحواف */
+  border-radius: 10px !important;
+  /* 46. إبعاد الصناديق المتتالية عن بعضها */
+  margin-bottom: 12px !important;
+}
+
+/* 47. تنسيق شريط عنوان السجل المنسدل (Expander Header) */
+[data-testid="stExpanderSummary"] {
+  /* 48. جعل العناصر داخل الشريط تُعرض بشكل مرن */
+  display: flex !important;
+  /* 49. اتجاه الترتيب من اليمين لليسار */
+  direction: rtl !important;
+  /* 50. توزيع المساحة بالكامل بين العنوان والسهم */
+  justify-content: space-between !important;
+  /* 51. المحاذاة العمودية في المنتصف */
+  align-items: center !important;
+  /* 52. حشوة داخلية للشريط */
+  padding: 12px 16px !important;
+}
+
+/* 53. تثبيت عنوان السجل وتاريخه في أقصى اليمين */
+[data-testid="stExpanderSummary"] [data-testid="stMarkdownContainer"],
+[data-testid="stExpanderSummary"] p {
+  /* 54. إعطاء الترتيب الأول للنص ليظهر يميناً */
+  order: 1 !important;
+  /* 55. محاذاة النص لليمين */
+  text-align: right !important;
+  /* 56. اتجاه النص يمين لليسار */
+  direction: rtl !important;
+  /* 57. إلغاء أي هامش أيمن زاد */
+  margin-right: 0 !important;
+}
+
+/* 58. إجبار سهم الانزلاق الخاص بالحقل على التموضع في أقصى اليسار وإظهاره كرمز سهم */
+[data-testid="stExpanderToggleIcon"] {
+  /* 59. إعطاء الترتيب الثاني للسهم ليظهر على اليسار */
+  order: 2 !important;
+  /* 60. دفع السهم تلقائياً لأقصى اليسار */
+  margin-right: auto !important;
+  /* 61. تفريغ الهامش الأيسر */
+  margin-left: 0 !important;
+  /* 62. عرض الأيقونة بشكل محاذي ومستقل */
+  display: flex !important;
+  /* 63. محاذاة السهم عمودياً */
+  align-items: center !important;
+  /* 64. محاذاة السهم أفقياً */
+  justify-content: center !important;
+}
+
+/* 65. تنسيق القائمة الجانبية للتطبيق عندما تكون مفتوحة فقط */
+[data-testid="stSidebar"][aria-expanded="true"] {
+  /* 66. خلفية داكنة للشريط الجانبي */
+  background: #070B14 !important;
+  /* 67. حد فاصل جانبي يظهر فقط عند فتح القائمة */
+  border-left: 1px solid var(--border) !important;
+  /* 68. اتجاه القائمة من اليمين لليسار */
+  direction: rtl !important;
+}
+
+/* 69. إلغاء الحدود والظلال تماماً عندما تكون القائمة الجانبية مغلقة لمنع ظهور الخط الخفيف */
+[data-testid="stSidebar"][aria-expanded="false"] {
+  /* 70. إزالة أي حد جانبي متبقٍ عند الإغلاق */
+  border: none !important;
+  /* 71. إزالة أي ظلال تتسبب في ظهور خط رأس عند الإغلاق */
+  box-shadow: none !important;
+}
+
+/* 72. إزالة الحدود من حاوية زر السهم عند إغلاق القائمة الجانبية */
+div[data-testid="stSidebarCollapsedControl"] {
+  /* 73. إزالة الحد الخارجي لضمان عدم ظهور الخط العمودي */
+  border: none !important;
+  /* 74. تثبيت الاتجاه لليسار ليبقى سهم الفتح بوضعه الصحيح */
+  direction: ltr !important;
+}
+
+/* 75. إصلاح زر فتح وإغلاق القائمة الجانبية ليظهر كسهم ينقلب عند الإغلاق دون كتابة أي كلام */
+[data-testid="stSidebarCollapseButton"],
+[data-testid="stSidebarCollapsedControl"] {
+  /* 76. تثبيت اتجاه الزر */
+  direction: ltr !important;
+  /* 77. توشيط الأيقونة داخل زر التحكم */
+  display: flex !important;
+  /* 78. محاذاة عمودية */
+  align-items: center !important;
+  /* 79. محاذاة أفقية */
+  justify-content: center !important;
+}
+
+/* 80. ضمان إخفاء محتويات القائمة الجانبية تماماً عند إغلاقها والإبقاء على سهم التوسيع فقط */
+[data-testid="stSidebarCollapsedControl"] button {
+  /* 81. إزالة خلفية الزر الافتراضية */
+  background: transparent !important;
+  /* 82. جعل لون سهم القائمة تركوازي */
+  color: var(--vital-teal) !important;
+  /* 83. إزالة الحدود */
+  border: none !important;
+}
+
+/* 84. حماية الأيقونات والرموز داخل القائمة الجانبية حتى تُعرض بشكلها الصحيح دون أن تختفي */
+[data-testid="stSidebarNav"] span,
+[data-testid="stSidebarNav"] svg,
+[data-testid="stSidebarNav"] i {
+  /* 85. عرض الأيقونة بشكل محاذي */
+  display: inline-block !important;
+  /* 86. الالتزام بخط الأيقونات الخاص بالنظام */
+  font-family: inherit;
+}
+
+/* 87. تنسيق الوسم العلوي الصغير (eyebrow) */
+.eyebrow {
+  /* 88. استخدام خط الأكواد */
+  font-family: 'JetBrains Mono', monospace;
+  /* 89. حجم الخط الصغير */
+  font-size: 0.72rem;
+  /* 90. تباعد الحروف */
+  letter-spacing: 0.16em;
+  /* 91. تحويل الحروف كبيرة */
+  text-transform: uppercase;
+  /* 92. لون النص التركوازي */
+  color: var(--vital-teal);
+  /* 93. عرض مرن */
+  display: flex;
+  /* 94. محاذاة عمودية */
+  align-items: center;
+  /* 95. مسافة بين النقطة والنص */
+  gap: 8px;
+}
+
+/* 96. النقطة المضيئة الخضراء قبل الوسم */
+.eyebrow::before {
+  /* 97. محتوى وهمي */
+  content: "";
+  /* 98. عرض النقطة */
+  width: 6px;
+  /* 99. ارتفاع النقطة */
+  height: 6px;
+  /* 100. شكل دائري */
+  border-radius: 50%;
+  /* 101. لون خلفية النقطة */
+  background: var(--vital-teal);
+  /* 102. توهج حول النقطة */
+  box-shadow: 0 0 8px var(--vital-teal);
+}
+
+/* 103. تنسيق البطاقات العامة (Card) */
+.card {
+  /* 104. لون الخلفية */
+  background: var(--bg-secondary);
+  /* 105. حد رفيع */
+  border: 1px solid var(--border);
+  /* 106. انحناء الزوايا */
+  border-radius: 14px;
+  /* 107. حشوة داخلية */
+  padding: 22px 24px;
+  /* 108. ظل للبطاقة */
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+  /* 109. اتجاه النصوص يمين لليسار */
+  direction: rtl !important;
+  /* 110. محاذاة يمين */
+  text-align: right !important;
+}
+
+/* 111. الهامش العلوي بين البطاقات */
+.card + .card {
+  /* 112. مسافة فاصلة علوية */
+  margin-top: 16px;
+}
+
+/* 113. تنسيق أزرار Streamlit */
+.stButton>button {
+  /* 114. خلفية تدرج تركوازي */
+  background: linear-gradient(135deg, var(--vital-teal), #1AB6A0);
+  /* 115. لون النص */
+  color: #06120F;
+  /* 116. نوع الخط */
+  font-family: 'Space Grotesk', sans-serif;
+  /* 117. سمك الخط */
+  font-weight: 700;
+  /* 118. إلغاء الحدود */
+  border: none;
+  /* 119. انحناء الحواف */
+  border-radius: 8px;
+  /* 120. الحشوة الداخلية */
+  padding: 0.6rem 1.4rem;
+  /* 121. تأثير الانتقال عند التفاعل */
+  transition: transform .15s ease, box-shadow .15s ease;
+  /* 122. ظلال تحت الزر */
+  box-shadow: 0 4px 16px rgba(34,211,184,0.25);
+}
+
+/* 123. تأثير تحريك الماوس فوق الزر */
+.stButton>button:hover {
+  /* 124. رفع الزر للقمة */
+  transform: translateY(-1px);
+  /* 125. زيادة التوهج */
+  box-shadow: 0 6px 20px rgba(34,211,184,0.4);
+}
+
+/* 126. تنسيق محرر النصوص والكود */
+.stTextArea textarea {
+  /* 127. خلفية المحرر */
+  background: #070B14 !important;
+  /* 128. لون الكود المكتوب */
+  color: var(--text-primary) !important;
+  /* 129. حد المربع */
+  border: 1px solid var(--border) !important;
+  /* 130. انحناء الحواف */
+  border-radius: 8px !important;
+  /* 131. خط الكود */
+  font-family: 'JetBrains Mono', monospace !important;
+  /* 132. حجم الخط */
+  font-size: 0.9rem !important;
+  /* 133. اتجاه الكتابة من اليسار لليمين */
+  direction: ltr !important;
+  /* 134. محاذاة لليسار */
+  text-align: left !important;
+}
+
+/* 135. تأثير التحديد داخل محرر الكود */
+.stTextArea textarea:focus {
+  /* 136. تغيير لون الحد إلى التركوازي */
+  border-color: var(--vital-teal) !important;
+  /* 137. توهج حول الحد */
+  box-shadow: 0 0 0 1px var(--vital-teal) !important;
+}
+
+/* 138. تنسيق بطاقات النتائج المباشرة */
+.verdict {
+  /* 139. انحناء الزوايا */
+  border-radius: 14px;
+  /* 140. حشوة داخلية */
+  padding: 20px 24px;
+  /* 141. عرض مرن */
+  display: flex;
+  /* 142. محاذاة عمودية */
+  align-items: center;
+  /* 143. مسافة بين العناصر */
+  gap: 16px;
+  /* 144. حدود رفيعة */
+  border: 1px solid var(--border);
+  /* 145. اتجاه يمين لليسار */
+  direction: rtl !important;
+}
+
+/* 146. خلفية النتائج السليمة */
+.verdict-clean {
+  /* 147. تدرج تركوازي خفيف */
+  background: linear-gradient(90deg, rgba(34,211,184,0.14), rgba(16,24,44,0.4));
+  /* 148. حد تركوازي */
+  border-color: rgba(34,211,184,0.35);
+}
+
+/* 149. خلفية نتائج المخاطر والأخطاء */
+.verdict-risk {
+  /* 150. تدرج مرجاني خفيف */
+  background: linear-gradient(90deg, rgba(242,84,91,0.14), rgba(16,24,44,0.4));
+  /* 151. حد مرجاني */
+  border-color: rgba(242,84,91,0.35);
+}
+
+/* 152. دائرة الأيقونة داخل النتيجة */
+.verdict-icon {
+  /* 153. حجم الخط */
+  font-size: 1.7rem;
+  /* 154. عرض الدائرة */
+  width: 46px;
+  /* 155. ارتفاع الدائرة */
+  height: 46px;
+  /* 156. شكل دائري */
+  border-radius: 50%;
+  /* 157. عرض مرن */
+  display: flex;
+  /* 158. توشيط عمودي */
+  align-items: center;
+  /* 159. توشيط أفقي */
+  justify-content: center;
+  /* 160. منع انكماش الدائرة */
+  flex-shrink: 0;
+}
+
+/* 161. ألوان خلفيات دوائر الأيقونات */
+.verdict-clean .verdict-icon { background: rgba(34,211,184,0.16); }
+.verdict-risk .verdict-icon { background: rgba(242,84,91,0.16); }
+
+/* 162. عناوين كروت النتائج */
+.verdict-title {
+  /* 163. خط العنوان */
+  font-family: 'Space Grotesk', sans-serif;
+  /* 164. سمك عريض */
+  font-weight: 700;
+  /* 165. حجم الخط */
+  font-size: 1.05rem;
+}
+
+/* 166. النصوص الفرعية للنتائج */
+.verdict-sub {
+  /* 167. لون باهت */
+  color: var(--text-muted);
+  /* 168. حجم الخط */
+  font-size: 0.85rem;
+  /* 169. هامش علوي */
+  margin-top: 2px;
+}
+
+/* 170. روابط القائمة الجانبية */
+[data-testid="stSidebarNav"] a {
+  /* 171. نوع الخط */
+  font-family: 'Space Grotesk', sans-serif;
+  /* 172. لون النص */
+  color: var(--text-muted) !important;
+  /* 173. انحناء الزوايا */
+  border-radius: 8px;
+  /* 174. الهوامش الخارجية */
+  margin: 2px 8px;
+  /* 175. محاذاة لليمين */
+  text-align: right !important;
+  /* 176. اتجاه النص من اليمين لليسار */
+  direction: rtl !important;
+}
+
+/* 177. تأثير التمرير على روابط الشريط الجانبي */
+[data-testid="stSidebarNav"] a:hover {
+  /* 178. خلفية الرابط */
+  background: var(--bg-secondary);
+  /* 179. تفتيح اللون */
+  color: var(--text-primary) !important;
+}
+
+/* 180. تمييز الرابط النشط حالياً */
+[data-testid="stSidebarNav"] a[aria-current="page"] {
+  /* 181. تدرج خلفية الرابط النشط */
+  background: linear-gradient(270deg, rgba(34,211,184,0.14), transparent);
+  /* 182. لون النص التركوازي */
+  color: var(--vital-teal) !important;
+  /* 183. حد أيمن مميز */
+  border-right: 2px solid var(--vital-teal);
+  /* 184. إزالة الحد الأيسر */
+  border-left: none !important;
+}
+
+/* 185. مسار شريط النسبة الأفقي */
+.gauge-track {
+  /* 186. العرض بالكامل */
+  width: 100%;
+  /* 187. الارتفاع */
+  height: 8px;
+  /* 188. الخلفية */
+  background: var(--bg-secondary);
+  /* 189. انحناء الحواف */
+  border-radius: 6px;
+  /* 190. قص المحتوى الزائد */
+  overflow: hidden;
+  /* 191. حد رفيع */
+  border: 1px solid var(--border);
+}
+
+/* 192. الجزء الملون القابل للتعبئة في المقياس */
+.gauge-fill {
+  /* 193. الارتفاع كامل */
+  height: 100%;
+  /* 194. انحناء الحواف */
+  border-radius: 6px;
+}
+
+/* 195. بطاقة الذكاء الاصطناعي (Gemini) */
+.ai-card {
+  /* 196. لون الخلفية */
+  background: var(--bg-secondary);
+  /* 197. حدود رفيعة بنفسجية */
+  border: 1px solid rgba(124,108,240,0.3);
+  /* 198. شريط جانبي أيمن متوافق مع RTL */
+  border-right: 3px solid #7C6CF0;
+  /* 199. إلغاء الشريط الأيسر القديم */
+  border-left: none !important;
+  /* 200. انحناء الزوايا */
+  border-radius: 14px;
+  /* 201. حشوة داخلية */
+  padding: 20px 22px;
+  /* 202. اتجاه المحتوى لليمين */
+  direction: rtl !important;
+  /* 203. محاذاة لليمين */
+  text-align: right !important;
+}
+
+/* 204. الوسم العلوي لبطاقة الذكاء الاصطناعي */
+.ai-card .ai-tag {
+  /* 205. خط الأكواد */
+  font-family: 'JetBrains Mono', monospace;
+  /* 206. حجم صغير */
+  font-size: 0.7rem;
+  /* 207. اللون البنفسجي */
+  color: #7C6CF0;
+  /* 208. تباعد الحروف */
+  letter-spacing: 0.1em;
+  /* 209. حروف كبيرة */
+  text-transform: uppercase;
+  /* 210. هامش سفلي */
+  margin-bottom: 8px;
+  /* 211. عرض كتلي */
+  display: block;
+}
+
+/* 212. بطاقات الإحصائيات الأرقام */
+.metric-card {
+  /* 213. لون الخلفية */
+  background: var(--bg-secondary);
+  /* 214. حدود رفيعة */
+  border: 1px solid var(--border);
+  /* 215. انحناء الحواف */
+  border-radius: 14px;
+  /* 216. حشوة داخلية */
+  padding: 18px 20px;
+  /* 217. ظلال */
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+  /* 218. تموضع نسبي */
+  position: relative;
+  /* 219. قص الزوائد */
+  overflow: hidden;
+  /* 220. اتجاه النصوص لليمين */
+  direction: rtl !important;
+  /* 221. محاذاة لليمين */
+  text-align: right !important;
+}
+
+/* 222. الخط السفلي لبطاقات الإحصائيات */
+.metric-card::after {
+  /* 223. محتوى وهمي */
+  content: "";
+  /* 224. موقع أسفل الكرت */
+  position: absolute;
+  /* 225. محاذاة يمين */
+  right: 0;
+  /* 226. محاذاة يسار */
+  left: 0;
+  /* 227. الحافة السفلى */
+  bottom: 0;
+  /* 228. ارتفاع الخط */
+  height: 3px;
+  /* 229. تدرج لوني */
+  background: linear-gradient(270deg, var(--accent, var(--vital-teal)), transparent);
+}
+
+/* 230. عنوان الإحصائية الصغير */
+.metric-label {
+  /* 231. خط الأكواد */
+  font-family: 'JetBrains Mono', monospace;
+  /* 232. حجم الخط */
+  font-size: 0.72rem;
+  /* 233. لون رمادي باهت */
+  color: var(--text-muted);
+  /* 234. تباعد الحروف */
+  letter-spacing: 0.06em;
+  /* 235. حروف كبيرة */
+  text-transform: uppercase;
+}
+
+/* 236. القيمة الرقمية للإحصائية */
+.metric-value {
+  /* 237. خط العناوين */
+  font-family: 'Space Grotesk', sans-serif;
+  /* 238. حجم بارز */
+  font-size: 2.1rem;
+  /* 239. خط عريض */
+  font-weight: 700;
+  /* 240. هامش علوي */
+  margin-top: 4px;
+  /* 241. لون النص */
+  color: var(--text-primary);
+}
+
+/* 242. فاصل النبضات */
+.vitals-divider {
+  /* 243. العرض بالكامل */
+  width: 100%;
+  /* 244. الارتفاع */
+  height: 34px;
+  /* 245. الهوامش */
+  margin: 6px 0 18px 0;
+  /* 246. الشفافية */
+  opacity: 0.9;
+}
+
+/* 247. بطاقة السجل الفردي */
+.log-card {
+  /* 248. خلفية السجل */
+  background: var(--bg-secondary);
+  /* 249. حد رفيع */
+  border: 1px solid var(--border);
+  /* 250. حد أيمن ملون */
+  border-right: 3px solid var(--tag-color, var(--vital-teal));
+  /* 251. إزالة الحد الأيسر */
+  border-left: none !important;
+  /* 252. انحناء الزوايا */
+  border-radius: 8px;
+  /* 253. حشوة داخلية */
+  padding: 14px 18px;
+  /* 254. هامش سفلي */
+  margin-bottom: 10px;
+  /* 255. اتجاه يمين لليسار */
+  direction: rtl !important;
+}
+
+/* 256. بيانات السجل العلوية */
+.log-meta {
+  /* 257. خط الأكواد */
+  font-family: 'JetBrains Mono', monospace;
+  /* 258. حجم الخط */
+  font-size: 0.72rem;
+  /* 259. لون باهت */
+  color: var(--text-muted);
+  /* 260. عرض مرن */
+  display: flex;
+  /* 261. توزيع على أطراف الشريط */
+  justify-content: space-between;
+}
+
+/* 262. حبوب الحالات والوسوم */
+.tag-pill {
+  /* 263. خط الأكواد */
+  font-family: 'JetBrains Mono', monospace;
+  /* 264. حجم الخط */
+  font-size: 0.68rem;
+  /* 265. حشوة داخلية */
+  padding: 2px 10px;
+  /* 266. انحناء مستدير كامل */
+  border-radius: 20px;
+  /* 267. حروف كبيرة */
+  text-transform: uppercase;
+  /* 268. تباعد الحروف */
+  letter-spacing: 0.05em;
+}
+
+/* 269. ألوان وسوم الحالات */
+.tag-clean { background: rgba(34,211,184,0.14); color: var(--vital-teal); }
+.tag-risk { background: rgba(242,84,91,0.14); color: var(--vital-coral); }

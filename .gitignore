@@ -1,0 +1,7 @@
+.venv/
+my_venv_ACR/
+venv/
+ENV/
+.streamlit/secrets.toml
+__pycache__/
+*.pyc
