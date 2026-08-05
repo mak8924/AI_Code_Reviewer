@@ -1,4 +1,4 @@
-# 1. استيراد مكتبة streamlit لبناء واجهات المستخدم التفاعلية الخاصة بالتطبيق
+# 1. استيراد مكتبة Streamlit لبناء واجهات المستخدم التفاعلية الخاصة بالتطبيق
 import streamlit as st
 
 # 2. استيراد مكتبة time للتحكم في زمن تنفيذ العمليات والتأخير الزمني عند الحاجة
@@ -67,8 +67,8 @@ def show_main_page():
         <div class="card">
             <div class="eyebrow">HOW IT WORKS</div>
             <p style="color:var(--text-muted); font-size:0.85rem; line-height:1.9; margin-top:8px;">
-                1) النموذج المحلي يتوقع احتمالية الخطأ<br>
-                2) عند وجود خطر، يشرح Gemini السبب ويقترح الحل<br>
+                1) النموذج المحلي يتوقع نسبة الخطورة من الميزات البرمجية<br>
+                2) يقيم Gemini الكود ويقدم النصائح أو التصحيح دائماً<br>
                 3) تُحفظ النتيجة تلقائياً في سجل العمليات
             </p>
         </div>
@@ -85,77 +85,77 @@ def show_main_page():
             st.warning("الرجاء لصق كود أولاً قبل الفحص.")
         else:
             # 23. إظهار حلقة التحميل والتأشير ببدء معالجة واستدعاء النماذج
-            with st.spinner("جاري تحليل الكود..."):
+            with st.spinner("جاري تحليل الكود عبر النموذج المحلي وGemini AI..."):
                 
-                # 24. استدعاء النموذج المحلي للتنبؤ بوجود خطر وحساب نسبة الثقة
+                # 24. استدعاء النموذج المحلي للتنبؤ بوجود خطر وحساب نسبة الخطورة الفعلية (0% - 100%)
                 is_risk, confidence = model_helper.predict_defect(code_input)
-                
-                # 25. تجهيز متغير نصي فارغ لحفظ رد الذكاء الاصطناعي Gemini
-                ai_explanation = ""
-                
-                # 26. شرط يتفقد ما إذا كشف النموذج المحلي عن وجود خطأ أو خطر في الكود
-                if is_risk:
-                    # 27. استدعاء نموذج Gemini لتحليل الخطأ وتقديم الشرح والتصحيح الحقيقي
-                    ai_explanation = gemini_helper.analyze_code(code_input)
-                
-                # 28. حفظ تفاصيل عملية الفحص بالكامل في سجل التاريخ محلياً عبر history_helper
+
+                # 25. تحديد الفئة واللون والرمز بناءً على النسبة المئوية للخطورة
+                if confidence >= 70:
+                    # حالة الخطر المرتفع (70% فأعلى) -> اللون الأحمر
+                    risk_status = "High"
+                    verdict_class = "verdict-risk"
+                    verdict_icon = "🚨"
+                    verdict_title = "خطر مرتفع: تم رصد احتمالية تعقيد أو أخطاء عالية"
+                    gauge_color = "#F2545B"
+                elif 40 <= confidence < 70:
+                    # حالة الخطر المتوسط (40% - 69%) -> اللون الأصفر
+                    risk_status = "Medium"
+                    verdict_class = "verdict-warning"
+                    verdict_icon = "⚠️"
+                    verdict_title = "خطر متوسط: الكود يحتاج مراجعة وتحسين"
+                    gauge_color = "#F59E0B"
+                else:
+                    # حالة الخطر المنخفض (أقل من 40%) -> اللون الأخضر
+                    risk_status = "Low"
+                    verdict_class = "verdict-clean"
+                    verdict_icon = "✅"
+                    verdict_title = "الكود يبدو سليماً ومنخفض الخطورة"
+                    gauge_color = "#22D3B8"
+
+                # 26. استدعاء نموذج Gemini دائماً لكافة الحالات الثلاث (Low, Medium, High)
+                ai_explanation = gemini_helper.analyze_code(code_input, risk_status=risk_status)
+
+                # 27. حفظ تفاصيل عملية الفحص بالكامل في سجل التاريخ محلياً عبر history_helper
                 history_helper.add_record(code_input, is_risk, confidence, ai_explanation)
 
-            # 29. التحقق من نتيجة كشف الخطر لعرض بطاقة التقييم المناسبة
-            if is_risk:
-                # 30. عرض بطاقة تحذيرية باللون الأحمر توضح رصد خطأ محتمل مع نسبة ثقة النموذج
-                st.markdown(f"""
-                <div class="verdict verdict-risk">
-                    <div class="verdict-icon">⚠️</div>
-                    <div>
-                        <div class="verdict-title">تم رصد خطأ محتمل</div>
-                        <div class="verdict-sub">ثقة النموذج: {confidence}%</div>
-                    </div>
+            # 28. عرض بطاقة النتيجة والتقييم بحسب المستوى المحدد (أحمر، أصفر، أخضر)
+            st.markdown(f"""
+            <div class="verdict {verdict_class}">
+                <div class="verdict-icon">{verdict_icon}</div>
+                <div>
+                    <div class="verdict-title">{verdict_title}</div>
+                    <div class="verdict-sub">نسبة الخطورة المتوقعة: {confidence}%</div>
                 </div>
-                """, unsafe_allow_html=True)
-            else:
-                # 31. عرض بطاقة إيجابية باللون الأخضر تثبت سلامة الكود مع نسبة ثقة النموذج
-                st.markdown(f"""
-                <div class="verdict verdict-clean">
-                    <div class="verdict-icon">✅</div>
-                    <div>
-                        <div class="verdict-title">الكود يبدو سليماً</div>
-                        <div class="verdict-sub">ثقة النموذج: {confidence}%</div>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
+            </div>
+            """, unsafe_allow_html=True)
 
-            # 32. تحديد لون شريط مؤشر الخطورة الأصلي (أحمر للخطورة، أخضر للسلامة)
-            gauge_color = "#F2545B" if is_risk else "#22D3B8"
-            
-            # 33. عرض شريط قياس نسبة ثقة وخطورة الكود ديناميكياً باستخدام التنسيقات الأصلية
+            # 29. عرض شريط قياس نسبة الخطورة ديناميكياً باللون المتوافق مع مستوى الخطر
             st.markdown(f"""
             <div class="gauge-track">
                 <div class="gauge-fill" style="width:{confidence}%; background:{gauge_color};"></div>
             </div>
             """, unsafe_allow_html=True)
 
-            # 34. التحقق مجدداً لعرض بطاقة Gemini فقط عند وجود خطر أو عيب في الكود
-            if is_risk:
-                # 35. عرض الشرح الحقيقي الناتِج عن Gemini داخل بطاقة التصميم الأصلية بنفس التنسيق
-                st.markdown(f"""
-                <div class="ai-card">
-                    <span class="ai-tag">✦ Gemini — الشرح والتصحيح</span>
-                    <div style="margin-top:10px; line-height:1.8; white-space: pre-wrap;">{ai_explanation}</div>
-                </div>
-                """, unsafe_allow_html=True)
+            # 30. عرض بطاقة الشرح المولد من Gemini دائماً لجميع الحالات وبشكل مؤكد
+            st.markdown(f"""
+            <div class="ai-card">
+                <span class="ai-tag">✦ Gemini — الشرح والتحليل الشامل</span>
+                <div style="margin-top:10px; line-height:1.8; white-space: pre-wrap;">{ai_explanation}</div>
+            </div>
+            """, unsafe_allow_html=True)
 
-# 36. إعداد تعريف صفحة الفحص الرئيسية بربطها بدالة العرض وتعيين العنوان والأيقونة
+# 31. إعداد تعريف صفحة الفحص الرئيسية بربطها بدالة العرض وتعيين العنوان والأيقونة
 main_page = st.Page(show_main_page, title="لوحة الفحص", icon="🩺", default=True)
 
-# 37. إعداد تعريف صفحة أداء النموذج بمسار ملفها الأصلي وتعيين العنوان العربي والأيقونة
+# 32. إعداد تعريف صفحة أداء النموذج بمسار ملفها الأصلي وتعيين العنوان العربي والأيقونة
 perf_page = st.Page("pages/1_Model_Performance.py", title="أداء النموذج", icon="📊")
 
-# 38. إعداد تعريف صفحة سجل الفحوصات بمسار ملفها الأصلي وتعيين العنوان العربي والأيقونة
+# 33. إعداد تعريف صفحة سجل الفحوصات بمسار ملفها الأصلي وتعيين العنوان العربي والأيقونة
 hist_page = st.Page("pages/2_History.py", title="سجل الفحوصات", icon="📜")
 
-# 39. إنشاء هيكل التنقل وتمرير قائمة الصفحات الثلاث المنظمة
+# 34. إنشاء هيكل التنقل وتمرير قائمة الصفحات الثلاث المنظمة
 pg = st.navigation([main_page, perf_page, hist_page])
 
-# 40. تشغيل وعرض الصفحة المحددة حالياً من قبل المستخدم
+# 35. تشغيل وعرض الصفحة المحددة حالياً من قبل المستخدم
 pg.run()
