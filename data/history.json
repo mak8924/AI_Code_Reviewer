@@ -1,1 +1,16 @@
-[]
+[
+    {
+        "timestamp": "2026-08-06 01:34:09",
+        "code": "# 1. تعريف دالة آمنة ونظيفة لحساب متوسط الأعداد في قائمة\ndef calculate_average(numbers_list):\n    # 2. التحقق من أن القائمة ليست فارغة لتفادي خطأ القسمة على صفر\n    if not numbers_list:\n        # 3. إرجاع القيمة صفر في حال كانت القائمة فارغة\n        return 0.0\n    # 4. حساب مجموع العناصر وتقسيمها على العدد الإجمالي بأمان\n    return sum(numbers_list) / len(numbers_list)",
+        "is_risk": false,
+        "confidence": 25,
+        "ai_explanation": "⚠️ تم تجاوز الحد المسموح لطلبات Gemini API مؤقتاً. تم الاعتماد على تقييم النموذج المحلي."
+    },
+    {
+        "timestamp": "2026-08-06 01:34:46",
+        "code": "// 1. تضمين مكتبة الإدخال والإخراج القياسية\n#include <iostream>\n// 2. تضمين مكتبة التعامل مع النصوص التقليدية في لغة C\n#include <cstring>\n\n// 3. تعريف الدالة الرئيسية لبرنامج C++\nint main() {\n    // 4. حجز مصفوفة أحرف صغيرة بسعة 10 أحرف فقط\n    char buffer[10];\n    // 5. استدعى دالة strcpy غير الآمنة لنسخ نص طويل جداً يسبب تجاوز سعة المجمع Buffer Overflow\n    strcpy(buffer, \"ThisIsAVeryLongStringThatWillOverflowTheBuffer\");\n    // 6. طباعة النص المخزن داخل المصفوفة المتجاوزة للسعة\n    std::cout << buffer << std::endl;\n    // 7. إنهاء تنفيذ البرنامج وإرجاع القيمة صفر\n    return 0;\n}",
+        "is_risk": true,
+        "confidence": 85,
+        "ai_explanation": "⚠️ تم تجاوز الحد المسموح لطلبات Gemini API مؤقتاً. تم الاعتماد على تقييم النموذج المحلي."
+    }
+]
