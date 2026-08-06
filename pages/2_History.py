@@ -126,12 +126,12 @@ else:
             # 45. عرض الكود البرمجي داخل مربع كود مخصص لسهولة القراءة والنسخ
             st.code(code, language="python")
 
-            # 46. التحقق مما إذا كان هناك خطأ وشرح مقدم من Gemini
-            if is_risk and ai_explanation:
+            # 46. التحقق من وجود شرح مقدم من Gemini بغض النظر عن حالة الخطورة (سليم أو به خطأ)
+            if ai_explanation:
                 # 47. عرض الشرح والتصحيح داخل بطاقة منسقة بنفس المظهر الأصلي
                 st.markdown(f"""
                 <div class="ai-card">
-                    <span class="ai-tag">✦ Gemini — الشرح والتصحيح</span>
+                    <span class="ai-tag">✦ Gemini — الشرح والتحليل</span>
                     <div style="margin-top:10px; line-height:1.8; white-space: pre-wrap;">{ai_explanation}</div>
                 </div>
                 """, unsafe_allow_html=True)
